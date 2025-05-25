@@ -11,7 +11,7 @@ services:
         - "80:80"
         - "443:443"
       volumes:
-        - ./7.2.x:/var/www/html:ro,cached
+        - ./code:/var/www/html:ro,cached
         - ./infra/nginx/conf.d:/etc/nginx/conf.d
       depends_on:
         - symfony
@@ -24,14 +24,14 @@ services:
         context: ./infra/
         dockerfile: ./php/Dockerfile
       volumes:
-        - ./7.2.x:/var/www/html:cached
+        - ./code:/var/www/html:cached
         - ./infra/php/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf
         - ./infra/php/config/php.ini:/usr/local/etc/php/php.ini
       depends_on:
         - mysql
       networks:
         - symfony
-      
+
     mysql:
       image: mysql
       platform: linux/x86_64
@@ -62,7 +62,6 @@ services:
 volumes:
   db_admin_data:
   mysql:
-
 networks:
   symfony:
     name: symfony

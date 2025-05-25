@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block title %}CRM application!{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}}
+    
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    
+{% endblock %}
+
+{% block body %}
+    {% include 'common/header.html.twig' %}
+    {% block content %}
+        <h1>No Content!</h1>
+    {% endblock %}
+    {% include 'common/footer.html.twig' %}
+{% endblock %}

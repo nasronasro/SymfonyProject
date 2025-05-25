@@ -1,0 +1,34 @@
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ path('app_home') }}">My App</a> {# Your brand or logo here #}
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#{#{ path('app_clients') }#}">Clients</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#{#{ path('app_about') }#}">About Us</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex">
+                    {% if app.user %}
+                        <span class="navbar-text me-3">Hello, <strong>{{ app.user.username }}</strong>!</span>
+                        <a class="btn btn-outline-danger" href="#{#{ path('app_logout') }#}">Logout</a>
+                    {% else %}
+                        <a class="btn btn-outline-primary" href="#{#{ path('app_login') }#}">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
