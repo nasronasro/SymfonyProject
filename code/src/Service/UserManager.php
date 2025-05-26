@@ -1,6 +1,5 @@
 <?php
 namespace App\Service;
-use App\Repository\UserRepositoryInterface;
 use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,6 +20,6 @@ class UserManager implements UserManagerInterface
         $user->setPassword($hashedPassword);
         
         $this->entityManager->getRepository(User::class)->add($user,true);
-       
     }
+    
 } 

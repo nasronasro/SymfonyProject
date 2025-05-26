@@ -1,0 +1,27 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}add new Client!{% endblock %}
+
+{% block content %}
+<container class="mt-5 mb-5">
+    <h1>Add New Client</h1>
+
+    {# Display flash messages #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {# Form to add a new client #}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">Add Client</button>
+    {{ form_end(form) }}
+
+    {# Link to go back to the client list #}
+    <a href="{{ path('app_client') }}" class="btn btn-secondary">Back to Client List</a>
+</container>
+{% endblock %}

@@ -7,6 +7,8 @@ services:
         
     App\Service\UserManager:
 
+    App\Service\ClientManager:  
+
     App\:
         resource: '../src/'
         exclude:

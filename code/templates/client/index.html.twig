@@ -1,0 +1,63 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}List Clients!{% endblock %}
+
+{% block content %}
+{# templates/client/index.html.twig #}
+    <h1>Client List</h1>
+
+    {# Display flash messages #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% if clients is not empty %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>Country</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for client in clients %}
+                    <tr>
+                        <td>{{ client.firstname }}</td>
+                        <td>{{ client.lastname }}</td>
+                        <td>{{ client.phone }}</td>
+                        <td>{{ client.address }}</td>
+                        <td>{{ client.city }}</td>
+                        <td>{{ client.country }}</td>
+
+                        <td>
+                            <a href="{{ path('app_client_view', {'id': client.id}) }}" class="btn btn-sm btn-info">View</a>
+                            <a href="{{ path('app_client_edit', {'id': client.id}) }}" class="btn btn-sm btn-warning">Edit</a>
+                            <form action="{{ path('app_client_delete', {'id': client.id}) }}" method="post" style="display:inline;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ client.id) }}">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">No clients found.</td> {# Adjust colspan based on the number of columns #}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No clients available at the moment.</p>
+    {% endif %}
+
+    {# You might want a link to add a new client #}
+    <a href="{{ path('app_client_add') }}" class="btn btn-primary">Add New Client</a> 
+{% endblock %}
