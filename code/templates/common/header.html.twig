@@ -1,34 +1,144 @@
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{ path('app_home') }}">My App</a> {# Your brand or logo here #}
+<header class="sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="{{ path('app_home') }}">
+                <div class="bg-primary rounded-circle p-2 me-2">
+                    <i class="bi bi-app text-white" style="font-size: 1.2rem;"></i>
+                </div>
+                <span class="fs-4">My App</span>
+            </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Home</a>
+                        <a class="nav-link px-3 py-2 rounded-pill mx-1" href="{{ path('app_home') }}"> {# Removed nav-link-hover class #}
+                            <i class="bi bi-house me-1"></i>Home
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#{#{ path('app_clients') }#}">Clients</a>
+                        <a class="nav-link px-3 py-2 rounded-pill mx-1" href="#{#{ path('app_clients') }#}"> {# Removed nav-link-hover class #}
+                            <i class="bi bi-people me-1"></i>Clients
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#{#{ path('app_about') }#}">About Us</a>
+                        <a class="nav-link px-3 py-2 rounded-pill mx-1" href="{{ path('app_home_about') }}"> {# Removed nav-link-hover class #}
+                            <i class="bi bi-info-circle me-1"></i>About Us
+                        </a>
                     </li>
                 </ul>
 
-                <div class="d-flex">
+                <div class="d-flex align-items-center gap-2 ms-lg-3">
                     {% if app.user %}
-                        <span class="navbar-text me-3">Hello, <strong>{{ app.user.username }}</strong>!</span>
-                        <a class="btn btn-outline-danger" href="#{#{ path('app_logout') }#}">Logout</a>
+                        <div class="dropdown">
+                            <button class="btn btn-link text-light text-decoration-none dropdown-toggle border-0 shadow-none d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="bg-primary rounded-circle p-2 me-2">
+                                    <i class="bi bi-person-fill text-white"></i>
+                                </div>
+                                <span class="fw-semibold">{{ app.user.username }}</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2" aria-labelledby="userDropdown">
+                                <li>
+                                    <h6 class="dropdown-header text-muted">
+                                        <i class="bi bi-person-circle me-2"></i>Account
+                                    </h6>
+                                </li>
+                                <li><a class="dropdown-item py-2" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                                <li><a class="dropdown-item py-2" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger py-2" href="{{ path('app_logout') }}">
+                                        <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     {% else %}
-                        <a class="btn btn-outline-primary" href="#{#{ path('app_login') }#}">Login</a>
+                        <a class="btn btn-outline-light rounded-pill px-3 me-2" href="{{ path('app_login') }}">
+                            <i class="bi bi-box-arrow-right me-1"></i>Login
+                        </a>
+                        <a class="btn btn-primary rounded-pill px-3 shadow-sm" href="{{ path('app_register') }}">
+                            <i class="bi bi-person-plus me-1"></i>Register
+                        </a>
                     {% endif %}
                 </div>
             </div>
         </div>
     </nav>
 </header>
+
+<style>
+/* Removed Navigation Hover Effects */
+.nav-link-hover {
+    transition: none;
+}
+
+.nav-link-hover:hover {
+    background-color: transparent; /* Revert to default */
+    color: inherit !important; /* Revert to default */
+    transform: none;
+}
+
+/* Keep active state if you have one */
+.nav-link-hover.active {
+    background-color: var(--bs-primary);
+    color: #fff !important;
+}
+
+/* Removed Brand Hover Effect */
+.navbar-brand:hover {
+    transform: none;
+    transition: none;
+}
+
+/* Removed Button Hover Effects */
+.btn-outline-light:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-primary:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Dropdown Enhancements - simplified, relying more on Bootstrap defaults */
+.dropdown-menu {
+    border: var(--bs-border-width) solid var(--bs-border-color); /* Bootstrap default border */
+    backdrop-filter: none;
+    background-color: var(--bs-body-bg); /* Bootstrap default background */
+}
+
+.dropdown-item:hover {
+    background-color: var(--bs-primary); /* Use Bootstrap primary for hover */
+    color: white;
+    transform: none; /* Remove transform */
+    transition: none; /* Remove transition */
+}
+
+.dropdown-item.text-danger:hover {
+    background-color: #dc3545; /* Keep danger color hover */
+    color: white;
+}
+
+/* Mobile Responsiveness - keep as is */
+@media (max-width: 991.98px) {
+    .navbar-nav {
+        text-align: center;
+        margin-top: 1rem;
+    }
+    
+    .d-flex.gap-2 {
+        flex-direction: column;
+        align-items: stretch;
+        margin-top: 1rem;
+    }
+    
+    .btn {
+        margin-bottom: 0.5rem;
+    }
+}
+</style>

@@ -1,5 +1,24 @@
-<footer class="footer mt-auto py-3 bg-light">
-    <div class="container text-center">
-        <span class="text-muted">&copy; {{ "now"|date("Y") }}</span>
+<footer class="bg-dark text-light mt-auto">     
+    <div class="container-fluid bg-dark-subtle text-muted py-3">
+        <div class="container text-center text-md-start">
+            <div class="row">
+                <div class="col-md-6 mb-2 mb-md-0">
+                    &copy; {{ "now"|date("Y") }} My App. All rights reserved.
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-muted text-decoration-none small mx-2">Privacy Policy</a>
+                    <span class="text-muted small">|</span>
+                    <a href="#" class="text-muted text-decoration-none small mx-2">Terms of Service</a>
+                </div>
+            </div>
+        </div>
     </div>
 </footer>
+
+<style>
+.footer-link:hover {
+    color: var(--bs-primary) !important; /* Keep primary color on hover if desired */
+    transform: none;
+    transition: none;
+}
+</style>
