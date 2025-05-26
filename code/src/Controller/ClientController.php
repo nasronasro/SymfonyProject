@@ -37,8 +37,6 @@ final class ClientController extends AbstractController
         ]);
     }
 
-    
-
     #[Route(path: '/add', name: '_add') ]
     public function add(Request $request): Response
     {
