@@ -1,0 +1,37 @@
+
+<h1>Factures</h1>
+
+    <div class="mb-3">
+        <a href="{{ path('app_facture_add', {'cid': client.id}) }}" class="btn btn-primary">Create new Facture</a>
+    </div>
+
+    {#% include 'facture/_search_form.html.twig' %#}
+{% if factures is not empty %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Facture number</th>
+                <th>Client</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for facture in factures %}
+                <tr>
+                    <td>{{ facture.nfactureNumber }}</td>
+                    <td>{{ facture.client.lastname ~ ' ' ~ facture.client.firstname }}</td>
+                    <td>{{ facture.dueDate|date('Y-m-d') }}</td>
+                    <td>{{ facture.amount|number_format(2, '.', ',') }} €</td>
+                    <td>
+                        <a href="{{ path('app_facture_view', {'id': facture.id, 'cid': facture.client.id}) }}" class="btn btn-info">View</a>
+                        <a href="{{ path('app_facture_edit', {'id': facture.id, 'cid': facture.client.id}) }}" class="btn btn-warning">Edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No factures found.</p>
+{% endif %}

@@ -8,6 +8,7 @@ services:
     App\Service\UserManager:
 
     App\Service\ClientManager:  
+    App\Service\FactureManager:
 
     App\:
         resource: '../src/'

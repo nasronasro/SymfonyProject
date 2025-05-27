@@ -7,21 +7,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Service\ClientManagerInterface;
+use App\Service\FactureManagerInterface;
 use App\Dto\ClientDto;
+use App\Dto\FactureDto;
+use App\Entity\Facture;
 use App\Form\Type\ClientType;
 use Symfony\Component\HttpFoundation\Request;
-
-#[Route('/client', name: 'app_client')]
+#[Route(path: '/client', name: 'app_client')]
 final class ClientController extends AbstractController
 {
     private ClientManagerInterface $clientManager;
+    private FactureManagerInterface $factureManager;
 
-    public function __construct(ClientManagerInterface $clientManager)
+    public function __construct(ClientManagerInterface $clientManager, FactureManagerInterface $factureManager)
     {
         $this->clientManager = $clientManager;
+        $this->factureManager = $factureManager;
     }
 
-    #[Route(path: '', name: '')]
+    #[Route(path: '/', name: '')]
     public function index(): Response
     {
         $clients = $this->clientManager->getAllClients();
@@ -40,15 +44,19 @@ final class ClientController extends AbstractController
     #[Route(path: '/add', name: '_add') ]
     public function add(Request $request): Response
     {
-        $client = new Client();
-        $form = $this->createForm(ClientType::class, $client);
+        
+        $clientDto = new ClientDto();
+        $form = $this->createForm(ClientType::class, $clientDto);
         
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $currentUser = $this->getUser();
 
+            $client = $clientDto->toEntity();
             $client->setUser($currentUser);
+
             $this->clientManager->addClient($client);
+
             $this->addFlash('success', 'Client added successfully!');
             return $this->redirectToRoute('app_client');
         }
@@ -62,11 +70,12 @@ final class ClientController extends AbstractController
     public function edit(Request $request, int $id): Response
     {
         $client = $this->clientManager->getClientById($id);
-
-        $form = $this->createForm(ClientType::class, $client);
+        $clientDto = ClientDto::fromEntity($client);
+        $form = $this->createForm(ClientType::class, $clientDto);
         
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $client = $clientDto->toEntity();
             $this->clientManager->updateClient($client);
 
             $this->addFlash('success', 'Client updated successfully!');
@@ -76,7 +85,7 @@ final class ClientController extends AbstractController
 
         return $this->render('client/edit.html.twig', [
             'form' => $form->createView(),
-            'client' => ClientDto::fromEntity($client),
+            'client' => $clientDto,
         ]);
     }
     #[Route(path: '/delete/{id}', name: '_delete')]
@@ -91,18 +100,23 @@ final class ClientController extends AbstractController
 
         return $this->redirectToRoute('app_client');
     }
-    #[Route(path: '/{id}', name: '_view')]
+    #[Route(path: '/view/{id}', name: '_view')]
     public function view(int $id): Response
     {
         $client = $this->clientManager->getClientById($id);
         if (!$client) {
             throw $this->createNotFoundException('Client not found');
         }
+        $factures = $this->factureManager->getAllFactures();
+        $facturesDto =  array_map(function (Facture $facture) {
+            return (new FactureDto())->fromEntity($facture);
+        }, $factures);
 
         $clientDto = ClientDto::fromEntity($client);
 
         return $this->render('client/view.html.twig', [
             'client' => $clientDto,
+            'factures' => $facturesDto,
         ]);
     }
 }

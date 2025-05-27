@@ -1,12 +1,11 @@
 <?php
 namespace App\Form\Type;
 
+use App\Dto\ClientDto;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use App\Entity\Client;
 
 class ClientType extends AbstractType
 {
@@ -38,7 +37,7 @@ class ClientType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Client::class,
+            'data_class' => ClientDto::class,
             'csrf_protection' => true,
         ]);
     }
